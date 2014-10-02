@@ -35,11 +35,11 @@ exports.hashAndSub = function(grunt, options) {
   if (options.files) {
     options.files.forEach(function(f) {
       f.src.forEach(function(src) {
-        var md5        = utils.md5(src).slice(0, 8),
+        var hash        = utils.hash(src).slice(0, 8),
             fileName   = path.basename(src),
             lastIndex  = fileName.lastIndexOf('.'),
             renamed    = formatter({
-              hash: md5,
+              hash: hash,
               name: fileName.slice(0, lastIndex),
               ext : fileName.slice(lastIndex + 1, fileName.length)
             }),
@@ -60,8 +60,8 @@ exports.hashAndSub = function(grunt, options) {
         grunt.log.write(src + ' ').ok(renamed);
       });
 
-      // sort by length 
-      // It is very useful when we have bar.js and foo-bar.js 
+      // sort by length
+      // It is very useful when we have bar.js and foo-bar.js
       // @crodas
       var files = [];
       for (var name in nameToHashedName) {
@@ -80,11 +80,11 @@ exports.hashAndSub = function(grunt, options) {
           grunt.log.debug('Substituting ' + value[0] + ' by ' + value[1])
           destContents = destContents.replace(new RegExp(utils.preg_quote(value[0])+"(\\?[0-9a-z]+)?", "g"), value[1]);
 
-          grunt.log.debug('Substituting ' + nameToNameSearch[value[0]] + ' by ' + value[1])
+          /*grunt.log.debug('Substituting ' + nameToNameSearch[value[0]] + ' by ' + value[1])
           destContents = destContents.replace(
-                new RegExp(nameToNameSearch[value[0]], "g"), 
+                new RegExp(nameToNameSearch[value[0]], "g"),
                 value[1]
-            );
+            );*/
         });
         grunt.log.debug('Saving the updated contents of the outination file');
         fs.writeFileSync(f, destContents, encoding);

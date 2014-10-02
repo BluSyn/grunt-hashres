@@ -56,9 +56,9 @@ exports.compileSearchFormat = function(format) {
   };
 };
 
-// Generates the md5 for the given file
-exports.md5 = function(filepath) {
-  var hash = crypto.createHash('md5');
+// Generates the hash for the given file
+exports.hash = function(filepath) {
+  var hash = crypto.createHash('sha1');
   hash.update(fs.readFileSync(String(filepath), 'utf8'));
   return hash.digest('hex');
 };
